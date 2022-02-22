@@ -24,7 +24,6 @@ const columns = [
     editable: true,
     singleClickEdit: true,
     cellEditorSelector: params => {
-      console.log(params)
       return {
         component: 'agSelectCellEditor',
         params: {

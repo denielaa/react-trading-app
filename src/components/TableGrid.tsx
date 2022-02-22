@@ -33,8 +33,8 @@ const InitialRowData = [
 
 const columns = [
   { field: 'execute' },
-  { field: 'exchange' },
-  { field: 'instrument' },
+  { field: 'exchange', editable: true },
+  { field: 'instrument', editable: true },
   { field: 'quantity' },
   { field: 'bid' },
   { field: 'ask' }

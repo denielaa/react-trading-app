@@ -61,6 +61,11 @@ const decimalRandomizer = () => {
   )
 }
 
+const booleanRandomizer = () => {
+  // 40% probability of true
+  return Math.random() > 0.4
+}
+
 const getInitialData = () => {
   // create 5 sample data
   const data = []
@@ -91,8 +96,8 @@ export const TradingPlan = () => {
         exchange: item.exchange,
         instrument: item.instrument,
         quantity: item.quantity,
-        bid: decimalRandomizer(),
-        ask: decimalRandomizer()
+        bid: booleanRandomizer() ? decimalRandomizer() : item.bid,
+        ask: booleanRandomizer() ? decimalRandomizer() : item.ask
       })
     })
     setRowData(newStore)

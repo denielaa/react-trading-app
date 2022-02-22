@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react'
 import { AgGridReact } from 'ag-grid-react'
 import { ExchangeType, InstrumentTypes } from 'shared/constants/exchanges'
+import Papa from 'papaparse'
+import { v4 as uuidv4 } from 'uuid'
 
 import './styles.css'
 
@@ -72,7 +74,7 @@ const getInitialData = () => {
   for (let i = 0; i < 5; i++) {
     const exchange = exchangeRandomizer()
     data.push({
-      id: i,
+      id: uuidv4(),
       execute: false,
       exchange,
       instrument: instrumentRandomizer(exchange),
@@ -107,28 +109,59 @@ export const TradingPlan = () => {
     return data.id
   }, [])
 
-  useEffect(() => {
-    const interval = setInterval(updatePrices, 1000)
-    return () => clearInterval(interval)
-  }, [])
+  const addData = useCallback(
+    data => {
+      const newStore = [...rowData]
+      data.forEach(item => {
+        newStore.push({
+          id: uuidv4(),
+          execute: '',
+          exchange: item.exchange.toUpperCase(),
+          instrument: item.instrument,
+          quantity: item.quantity,
+          bid: decimalRandomizer(),
+          ask: decimalRandomizer()
+        })
+      })
+
+      setRowData(newStore)
+    },
+    [rowData]
+  )
+
+  const handleOnChange = e => {
+    console.log(e.target.files[0])
+    const file = e.target.files[0]
+    Papa.parse(file, {
+      header: true,
+      escapeChar: '"',
+      skipEmptyLines: true,
+      complete: result => {
+        addData(result.data)
+      }
+    })
+  }
+
+  // useEffect(() => {
+  //   const interval = setInterval(updatePrices, 1000)
+  //   return () => clearInterval(interval)
+  // }, [])
 
   return (
     <div>
       <div className="m-2 flex">
         <div className="flex-grow text-2xl">Trading Plan</div>
         <div className="flex-1">
-          <button
-            className="
-              bg-blue-500 
-              hover:bg-blue-700 
-              text-sm 
-              text-white 
-              py-2 px-4
-              rounded
-            "
-          >
+          {/* TODO: Create new component for import button */}
+          <label htmlFor="csv-file-input" className="import">
             Import CSV
-          </button>
+          </label>
+          <input
+            type={'file'}
+            id={'csv-file-input'}
+            accept={'.csv'}
+            onChange={handleOnChange}
+          />
         </div>
       </div>
 

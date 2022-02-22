@@ -47,6 +47,20 @@ const instrumentRandomizer = exchange => {
   return instruments[Math.floor(Math.random() * instruments.length)]
 }
 
+const numberRandomizer = () => {
+  return Math.floor(Math.random() * 100)
+}
+
+const decimalRandomizer = () => {
+  const precision = 100 // 2 decimals
+  return (
+    Math.floor(
+      Math.random() * (10 * precision - 1 * precision) + 1 * precision
+    ) /
+    (1 * precision)
+  )
+}
+
 const getInitialData = () => {
   // create 5 sample data
   const data = []
@@ -57,9 +71,9 @@ const getInitialData = () => {
       execute: false,
       exchange,
       instrument: instrumentRandomizer(exchange),
-      quantity: Math.floor(Math.random() * 100),
-      bid: Math.floor(Math.random() * 100),
-      ask: Math.floor(Math.random() * 100)
+      quantity: numberRandomizer(),
+      bid: decimalRandomizer(),
+      ask: decimalRandomizer()
     })
   }
   return data
@@ -77,8 +91,8 @@ export const TradingPlan = () => {
         exchange: item.exchange,
         instrument: item.instrument,
         quantity: item.quantity,
-        bid: Math.floor(Math.random() * 100),
-        ask: Math.floor(Math.random() * 100)
+        bid: decimalRandomizer(),
+        ask: decimalRandomizer()
       })
     })
     setRowData(newStore)
@@ -89,7 +103,7 @@ export const TradingPlan = () => {
   }, [])
 
   useEffect(() => {
-    const interval = setInterval(updatePrices, 2000)
+    const interval = setInterval(updatePrices, 1000)
     return () => clearInterval(interval)
   }, [])
 

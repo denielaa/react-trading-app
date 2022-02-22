@@ -45,12 +45,13 @@ export const TableGrid = () => {
   const [rowData, setRowData] = useState(InitialRowData)
 
   return (
-    <div className="ag-theme-alpine" style={{ height: 400, width: 600 }}>
+    <div className="ag-theme-alpine" style={{ height: 500 }}>
       <AgGridReact
         pagination={true}
         defaultColDef={{ sortable: true, filter: true }}
         rowData={rowData}
         columnDefs={columns}
+        immutableData={true}
       ></AgGridReact>
     </div>
   )

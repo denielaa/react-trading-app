@@ -138,6 +138,7 @@ export const TradingPlan = () => {
       skipEmptyLines: true,
       complete: result => {
         addData(result.data)
+        e.target.value = null // reset input file
       }
     })
   }

@@ -10,15 +10,28 @@ const columns = [
     field: 'exchange',
     editable: true,
     singleClickEdit: true,
-    cellEditor: 'agSelectCellEditor',
-    cellEditorParams: {
-      values: [ExchangeType.BINANCE, ExchangeType.FTX]
+    cellEditorSelector: params => {
+      return {
+        component: 'agSelectCellEditor',
+        params: {
+          values: [ExchangeType.BINANCE, ExchangeType.FTX]
+        }
+      }
     }
   },
   {
     field: 'instrument',
     editable: true,
-    singleClickEdit: true
+    singleClickEdit: true,
+    cellEditorSelector: params => {
+      console.log(params)
+      return {
+        component: 'agSelectCellEditor',
+        params: {
+          values: InstrumentTypes[params.data.exchange]
+        }
+      }
+    }
   },
   { field: 'quantity' },
   { field: 'bid' },
@@ -31,22 +44,22 @@ export const TradingPlan = () => {
     {
       execute: '',
       exchange: 'FTX',
-      instrument: 'ADA-USD',
+      instrument: 'BTC-USDT',
       quantity: '249.9045',
       bid: '2.93674',
       ask: '2.93769'
     },
     {
       execute: '',
-      exchange: 'Binance',
-      instrument: 'MANA-USDT',
+      exchange: 'BINANCE',
+      instrument: 'BTC-USD',
       quantity: '249.9045',
       bid: '2.93674',
       ask: '2.93769'
     },
     {
       execute: '',
-      exchange: 'Kucoin Spot',
+      exchange: 'FTX',
       instrument: 'BTC-USDT',
       quantity: '500',
       bid: '2.93674',

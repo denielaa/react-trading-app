@@ -1,9 +1,8 @@
-import { useState } from 'react'
-import { TableGrid } from './components/TableGrid'
+import { TradingPlan } from './Projects/TradingPlan'
 import './App.css'
 
 function App() {
-  return <TableGrid />
+  return <TradingPlan />
 }
 
 export default App

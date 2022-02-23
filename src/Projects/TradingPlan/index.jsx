@@ -88,7 +88,7 @@ export const TradingPlan = () => {
 
   const handleClickOpen = value => {
     // get latest data in grid
-    const row = gridRef.current.api.getDisplayedRowAtIndex(value)
+    const row = gridRef.current.api.getRowNode(value)
 
     setActivePlan({
       exchange: row.data.exchange,

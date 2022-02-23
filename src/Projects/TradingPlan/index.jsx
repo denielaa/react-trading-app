@@ -196,7 +196,7 @@ export const TradingPlan = () => {
         handleConfirm={handleConfirm}
       />
 
-      <div className="ag-theme-alpine" style={{ height: 500 }}>
+      <Box className="ag-theme-alpine" sx={{ height: '500px' }}>
         <AgGridReact
           ref={gridRef}
           defaultColDef={{
@@ -214,7 +214,7 @@ export const TradingPlan = () => {
             handleClickOpen
           }}
         ></AgGridReact>
-      </div>
+      </Box>
     </div>
   )
 }

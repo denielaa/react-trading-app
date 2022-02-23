@@ -4,6 +4,11 @@ import { ExchangeType, InstrumentTypes } from 'shared/constants/exchanges'
 import Papa from 'papaparse'
 import { v4 as uuidv4 } from 'uuid'
 import useInterval from 'shared/hooks/interval'
+import {
+  decimalRandomizer,
+  booleanRandomizer,
+  generateNewTrading
+} from 'shared/utils/randomizer'
 
 import './styles.css'
 
@@ -40,55 +45,8 @@ const columns = [
   { field: 'ask' }
 ]
 
-const exchangeRandomizer = () => {
-  const exchanges = [ExchangeType.BINANCE, ExchangeType.FTX]
-  return exchanges[Math.floor(Math.random() * exchanges.length)]
-}
-
-const instrumentRandomizer = exchange => {
-  const instruments = InstrumentTypes[exchange]
-  return instruments[Math.floor(Math.random() * instruments.length)]
-}
-
-const numberRandomizer = () => {
-  return Math.floor(Math.random() * 100)
-}
-
-const decimalRandomizer = () => {
-  const precision = 100 // 2 decimals
-  return (
-    Math.floor(
-      Math.random() * (10 * precision - 1 * precision) + 1 * precision
-    ) /
-    (1 * precision)
-  )
-}
-
-const booleanRandomizer = () => {
-  // 40% probability of true
-  return Math.random() > 0.4
-}
-
-const getInitialData = () => {
-  // create 5 sample data
-  const data = []
-  for (let i = 0; i < 5; i++) {
-    const exchange = exchangeRandomizer()
-    data.push({
-      id: uuidv4(),
-      execute: false,
-      exchange,
-      instrument: instrumentRandomizer(exchange),
-      quantity: numberRandomizer(),
-      bid: decimalRandomizer(),
-      ask: decimalRandomizer()
-    })
-  }
-  return data
-}
-
 export const TradingPlan = () => {
-  const [rowData, setRowData] = useState(getInitialData())
+  const [rowData, setRowData] = useState(generateNewTrading())
 
   const updatePrices = useCallback(() => {
     const newStore = []

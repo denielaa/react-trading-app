@@ -42,6 +42,7 @@ const columns = [
     field: Fields.INSTRUMENT,
     editable: true,
     singleClickEdit: true,
+    width: 150,
     cellEditorSelector: params => {
       return {
         component: 'agSelectCellEditor',

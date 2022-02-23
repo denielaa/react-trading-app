@@ -13,7 +13,7 @@ import {
 import './styles.css'
 
 const columns = [
-  { field: 'execute' },
+  { field: 'execute', sortable: false, filter: false },
   {
     field: 'exchange',
     editable: true,

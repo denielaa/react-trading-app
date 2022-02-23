@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import { AgGridReact } from 'ag-grid-react'
 import { ExchangeType, InstrumentTypes } from 'shared/constants/exchanges'
 import Papa from 'papaparse'

@@ -77,7 +77,7 @@ const columns = [
 ]
 
 export const TradingPlan = () => {
-  const [rowData, setRowData, rowDataRef] = useState(generateNewTrading())
+  const [rowData, setRowData] = useState(generateNewTrading())
   const [open, setOpen] = useState(false)
   const [activePlan, setActivePlan] = useState({
     exchange: null,
@@ -85,16 +85,12 @@ export const TradingPlan = () => {
     quantity: null
   })
 
-  const handleClickOpen = useCallback(
-    value => {
-      const row = rowData[value]
-      console.log('rowData', rowData)
+  const handleClickOpen = value => {
+    const row = rowData[value]
 
-      setActivePlan(row)
-      setOpen(true)
-    },
-    [rowData]
-  )
+    setActivePlan(row)
+    setOpen(true)
+  }
 
   const handleClose = () => {
     setOpen(false)

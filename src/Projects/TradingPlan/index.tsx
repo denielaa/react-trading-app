@@ -113,7 +113,7 @@ export const TradingPlan = () => {
     data => {
       const newStore = [...rowData]
       data.forEach(item => {
-        newStore.push({
+        newStore.splice(0, 0, {
           id: uuidv4(),
           execute: '',
           exchange: item.exchange.toUpperCase(),
@@ -130,7 +130,6 @@ export const TradingPlan = () => {
   )
 
   const handleOnChange = e => {
-    console.log(e.target.files[0])
     const file = e.target.files[0]
     Papa.parse(file, {
       header: true,
@@ -143,10 +142,10 @@ export const TradingPlan = () => {
     })
   }
 
-  // useEffect(() => {
-  //   const interval = setInterval(updatePrices, 1000)
-  //   return () => clearInterval(interval)
-  // }, [])
+  useEffect(() => {
+    const interval = setInterval(updatePrices, 5000)
+    return () => clearInterval(interval)
+  }, [])
 
   return (
     <div>

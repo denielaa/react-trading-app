@@ -3,6 +3,7 @@ import { AgGridReact } from 'ag-grid-react'
 import { ExchangeType, InstrumentTypes } from 'shared/constants/exchanges'
 import Papa from 'papaparse'
 import { v4 as uuidv4 } from 'uuid'
+import useInterval from 'shared/hooks/interval'
 
 import './styles.css'
 
@@ -142,10 +143,7 @@ export const TradingPlan = () => {
     })
   }
 
-  useEffect(() => {
-    const interval = setInterval(updatePrices, 5000)
-    return () => clearInterval(interval)
-  }, [])
+  useInterval(updatePrices, 1000)
 
   return (
     <div>
@@ -162,6 +160,10 @@ export const TradingPlan = () => {
             accept={'.csv'}
             onChange={handleOnChange}
           />
+          {/* 
+          <button className="btn btn-primary" onClick={() => updatePrices()}>
+            update
+          </button> */}
         </div>
       </div>
 

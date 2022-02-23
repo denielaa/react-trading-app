@@ -2,9 +2,9 @@ import { useState, useCallback } from 'react'
 import { AgGridReact } from 'ag-grid-react'
 import { ExchangeType, InstrumentTypes } from 'shared/constants/exchanges'
 import { Fields } from 'shared/constants/tradingTable'
-import Papa from 'papaparse'
 import { v4 as uuidv4 } from 'uuid'
 import useInterval from 'shared/hooks/interval'
+import { CsvParser } from 'shared/utils/csvParser'
 import {
   decimalRandomizer,
   booleanRandomizer,
@@ -116,14 +116,11 @@ export const TradingPlan = () => {
 
   const handleOnChange = e => {
     const file = e.target.files[0]
-    Papa.parse(file, {
-      header: true,
-      escapeChar: '"',
-      skipEmptyLines: true,
-      complete: result => {
-        addData(result.data)
-        e.target.value = null // reset input file
-      }
+    CsvParser(file).then(data => {
+      addData(data)
+
+      // reset input file
+      e.target.value = null
     })
   }
 

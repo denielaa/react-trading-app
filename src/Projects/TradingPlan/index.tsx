@@ -12,6 +12,7 @@ import {
 } from 'shared/utils/randomizer'
 
 import './styles.css'
+import ButtonImport from 'shared/components/ButtonImport'
 
 const columns = [
   { field: Fields.EXECUTE, sortable: false, filter: false },
@@ -127,23 +128,10 @@ export const TradingPlan = () => {
 
   return (
     <div>
-      <div className="m-2 flex">
+      <div className="m-2 flex flex-row">
         <div className="flex-grow text-2xl">Trading Plan</div>
-        <div className="flex-1">
-          {/* TODO: Create new component for import button */}
-          <label htmlFor="csv-file-input" className="import">
-            Import CSV
-          </label>
-          <input
-            type={'file'}
-            id={'csv-file-input'}
-            accept={'.csv'}
-            onChange={handleOnChange}
-          />
-          {/* 
-          <button className="btn btn-primary" onClick={() => updatePrices()}>
-            update
-          </button> */}
+        <div className="flex-shrink-0 items-center">
+          <ButtonImport onChange={handleOnChange} />
         </div>
       </div>
 

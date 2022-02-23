@@ -1,16 +1,14 @@
-export default props => {
-  console.log(props)
+import Button from '@mui/material/Button'
 
+export default props => {
   const buttonClicked = () => {
-    alert('yeay!')
+    // show modal
+    // set modal default values
   }
 
   return (
-    <button
-      className="bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded; text-xs rounded-sm"
-      onClick={() => buttonClicked()}
-    >
+    <Button variant="contained" onClick={() => buttonClicked()}>
       Execute
-    </button>
+    </Button>
   )
 }

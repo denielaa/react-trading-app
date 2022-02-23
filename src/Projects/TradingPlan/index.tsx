@@ -1,8 +1,10 @@
 import { useState, useCallback } from 'react'
 import { AgGridReact } from 'ag-grid-react'
+import { v4 as uuidv4 } from 'uuid'
+import Box from '@mui/material/Box'
+
 import { ExchangeType, InstrumentTypes } from 'shared/constants/exchanges'
 import { Fields } from 'shared/constants/tradingTable'
-import { v4 as uuidv4 } from 'uuid'
 import useInterval from 'shared/hooks/interval'
 import { CsvParser } from 'shared/utils/csvParser'
 import ButtonImport from 'shared/components/ButtonImport'
@@ -132,12 +134,15 @@ export const TradingPlan = () => {
 
   return (
     <div>
-      <div className="m-2 flex flex-row">
-        <div className="flex-grow text-2xl">Trading Plan</div>
-        <div className="flex-shrink-0 items-center">
+      <Box
+        component="div"
+        sx={{ display: 'flex', justifyContent: 'space-between', p: 2 }}
+      >
+        <Box sx={{ flexGrow: 1 }}>Trading Plan</Box>
+        <Box sx={{ flexShrink: 0 }}>
           <ButtonImport onChange={handleOnChange} />
-        </div>
-      </div>
+        </Box>
+      </Box>
 
       <div className="ag-theme-alpine" style={{ height: 500 }}>
         <AgGridReact

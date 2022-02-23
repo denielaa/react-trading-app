@@ -81,6 +81,7 @@ export const TradingPlan = () => {
   const [rowData, setRowData] = useState(generateNewTrading())
   const [open, setOpen] = useState(false)
   const [activePlan, setActivePlan] = useState({
+    nodeId: null,
     exchange: null,
     instrument: null,
     quantity: null
@@ -91,6 +92,7 @@ export const TradingPlan = () => {
     const row = gridRef.current.api.getRowNode(value)
 
     setActivePlan({
+      nodeId: value,
       exchange: row.data.exchange,
       instrument: row.data.instrument,
       quantity: row.data.quantity
@@ -101,6 +103,15 @@ export const TradingPlan = () => {
   const handleClose = () => {
     setOpen(false)
   }
+
+  const handleConfirm = useCallback(updatedPlan => {
+    const rowNode = gridRef.current.api.getRowNode(updatedPlan.nodeId)
+    const quantity = Number(updatedPlan.quantity)
+
+    if (!Number.isNaN(quantity)) {
+      rowNode.setDataValue(Fields.QUANTITY, quantity)
+    }
+  })
 
   const updatePrices = useCallback(() => {
     const newStore = []
@@ -178,7 +189,12 @@ export const TradingPlan = () => {
         </Box>
       </Box>
 
-      <ExecuteModal isOpen={open} handleClose={handleClose} plan={activePlan} />
+      <ExecuteModal
+        isOpen={open}
+        plan={activePlan}
+        handleClose={handleClose}
+        handleConfirm={handleConfirm}
+      />
 
       <div className="ag-theme-alpine" style={{ height: 500 }}>
         <AgGridReact

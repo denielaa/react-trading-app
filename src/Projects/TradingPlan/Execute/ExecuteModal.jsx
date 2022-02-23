@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
@@ -6,7 +7,16 @@ import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
 
-export const ExecuteModal = ({ plan, isOpen, handleClose }) => {
+export const ExecuteModal = ({ plan, isOpen, handleClose, handleConfirm }) => {
+  const [quantity, setQuantity] = useState(plan.quantity)
+  const onConfirm = () => {
+    handleConfirm({
+      ...plan,
+      quantity
+    })
+    handleClose()
+  }
+
   return (
     <Dialog open={isOpen} onClose={handleClose}>
       <DialogTitle>Execution confirmation</DialogTitle>
@@ -38,12 +48,13 @@ export const ExecuteModal = ({ plan, isOpen, handleClose }) => {
             variant="outlined"
             size="small"
             defaultValue={plan.quantity}
+            onChange={e => setQuantity(e.target.value)}
           />
         </Box>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
-        <Button variant="contained" color="primary" onClick={handleClose}>
+        <Button variant="contained" color="primary" onClick={onConfirm}>
           Confirm
         </Button>
       </DialogActions>

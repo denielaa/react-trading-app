@@ -2,10 +2,6 @@ import { forwardRef } from 'react'
 
 import './style.css'
 
-const defaultProps = {
-  onChange: () => {}
-}
-
 const ButtonImport = forwardRef(({ onChange }, ref) => {
   const handleOnChange = e => {
     onChange(e)
@@ -26,7 +22,5 @@ const ButtonImport = forwardRef(({ onChange }, ref) => {
     </div>
   )
 })
-
-ButtonImport.defaultProps = defaultProps
 
 export default ButtonImport

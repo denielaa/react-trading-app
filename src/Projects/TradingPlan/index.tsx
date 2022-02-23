@@ -5,6 +5,8 @@ import { Fields } from 'shared/constants/tradingTable'
 import { v4 as uuidv4 } from 'uuid'
 import useInterval from 'shared/hooks/interval'
 import { CsvParser } from 'shared/utils/csvParser'
+import ButtonImport from 'shared/components/ButtonImport'
+import ButtonCellRenderer from './Execute/buttonCellRenderer'
 import {
   decimalRandomizer,
   booleanRandomizer,
@@ -12,15 +14,19 @@ import {
 } from 'shared/utils/randomizer'
 
 import './styles.css'
-import ButtonImport from 'shared/components/ButtonImport'
 
 const columns = [
-  { field: Fields.EXECUTE, sortable: false, filter: false },
+  {
+    field: Fields.EXECUTE,
+    sortable: false,
+    filter: false,
+    cellRenderer: ButtonCellRenderer
+  },
   {
     field: Fields.EXCHANGE,
     editable: true,
     singleClickEdit: true,
-    cellEditorSelector: params => {
+    cellEditorSelector: () => {
       return {
         component: 'agSelectCellEditor',
         params: {
@@ -118,9 +124,7 @@ export const TradingPlan = () => {
     const file = e.target.files[0]
     CsvParser(file).then(data => {
       addData(data)
-
-      // reset input file
-      e.target.value = null
+      e.target.value = null // reset input file
     })
   }
 

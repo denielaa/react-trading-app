@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import { AgGridReact } from 'ag-grid-react'
 import { v4 as uuidv4 } from 'uuid'
 import Box from '@mui/material/Box'
@@ -77,6 +77,7 @@ const columns = [
 ]
 
 export const TradingPlan = () => {
+  const gridRef = useRef()
   const [rowData, setRowData] = useState(generateNewTrading())
   const [open, setOpen] = useState(false)
   const [activePlan, setActivePlan] = useState({
@@ -86,9 +87,14 @@ export const TradingPlan = () => {
   })
 
   const handleClickOpen = value => {
-    const row = rowData[value]
+    // get latest data in grid
+    const row = gridRef.current.api.getDisplayedRowAtIndex(value)
 
-    setActivePlan(row)
+    setActivePlan({
+      exchange: row.data.exchange,
+      instrument: row.data.instrument,
+      quantity: row.data.quantity
+    })
     setOpen(true)
   }
 
@@ -176,7 +182,12 @@ export const TradingPlan = () => {
 
       <div className="ag-theme-alpine" style={{ height: 500 }}>
         <AgGridReact
-          defaultColDef={{ sortable: true, filter: true }}
+          ref={gridRef}
+          defaultColDef={{
+            sortable: true,
+            filter: true,
+            enableCellChangeFlash: true
+          }}
           rowData={rowData}
           columnDefs={columns}
           immutableData={true}

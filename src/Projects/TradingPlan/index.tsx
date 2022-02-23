@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
 import { AgGridReact } from 'ag-grid-react'
 import { ExchangeType, InstrumentTypes } from 'shared/constants/exchanges'
+import { Fields } from 'shared/constants/tradingTable'
 import Papa from 'papaparse'
 import { v4 as uuidv4 } from 'uuid'
 import useInterval from 'shared/hooks/interval'
@@ -13,9 +14,9 @@ import {
 import './styles.css'
 
 const columns = [
-  { field: 'execute', sortable: false, filter: false },
+  { field: Fields.EXECUTE, sortable: false, filter: false },
   {
-    field: 'exchange',
+    field: Fields.EXCHANGE,
     editable: true,
     singleClickEdit: true,
     cellEditorSelector: params => {
@@ -28,7 +29,7 @@ const columns = [
     }
   },
   {
-    field: 'instrument',
+    field: Fields.INSTRUMENT,
     editable: true,
     singleClickEdit: true,
     cellEditorSelector: params => {
@@ -41,7 +42,7 @@ const columns = [
     }
   },
   {
-    field: 'quantity',
+    field: Fields.QUANTITY,
     editable: true,
     valueParser: params => {
       // TODO: to support locale number format
@@ -53,8 +54,8 @@ const columns = [
       return parsedNumber
     }
   },
-  { field: 'bid' },
-  { field: 'ask' }
+  { field: Fields.BID },
+  { field: Fields.ASK }
 ]
 
 export const TradingPlan = () => {
@@ -99,6 +100,15 @@ export const TradingPlan = () => {
     },
     [rowData]
   )
+
+  const onCellValueChanged = useCallback(event => {
+    if (event.colDef.field === Fields.EXCHANGE) {
+      const newStore = [...rowData]
+      newStore[event.rowIndex].exchange = event.newValue
+      newStore[event.rowIndex].instrument = InstrumentTypes[event.newValue][0]
+      setRowData(newStore)
+    }
+  }, [])
 
   const handleOnChange = e => {
     const file = e.target.files[0]
@@ -145,6 +155,7 @@ export const TradingPlan = () => {
           immutableData={true}
           animateRows={true}
           getRowNodeId={getRowNodeId}
+          onCellValueChanged={onCellValueChanged}
         ></AgGridReact>
       </div>
     </div>

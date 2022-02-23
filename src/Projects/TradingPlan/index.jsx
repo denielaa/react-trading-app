@@ -3,17 +3,17 @@ import { AgGridReact } from 'ag-grid-react'
 import { v4 as uuidv4 } from 'uuid'
 import Box from '@mui/material/Box'
 
-import { ExchangeType, InstrumentTypes } from 'shared/constants/exchanges'
-import { Fields } from 'shared/constants/tradingTable'
-import useInterval from 'shared/hooks/interval'
-import { CsvParser } from 'shared/utils/csvParser'
-import ButtonImport from 'shared/components/ButtonImport'
+import { ExchangeType, InstrumentTypes } from '~/shared/constants/exchanges'
+import { Fields } from '~/shared/constants/tradingTable'
+import useInterval from '~/shared/hooks/interval'
+import { CsvParser } from '~/shared/utils/csvParser'
+import ButtonImport from '~/shared/components/ButtonImport'
 import ButtonCellRenderer from './Execute/buttonCellRenderer'
 import {
   decimalRandomizer,
   booleanRandomizer,
   generateNewTrading
-} from 'shared/utils/randomizer'
+} from '~/shared/utils/randomizer'
 
 import './styles.css'
 import { ExecuteModal } from './Execute/ExecuteModal'

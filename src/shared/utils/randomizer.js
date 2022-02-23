@@ -1,4 +1,4 @@
-import { ExchangeType, InstrumentTypes } from 'shared/constants/exchanges'
+import { ExchangeType, InstrumentTypes } from '~/shared/constants/exchanges'
 import { v4 as uuidv4 } from 'uuid'
 
 export const numberRandomizer = () => {
@@ -30,7 +30,7 @@ export const instrumentRandomizer = exchange => {
   return instruments[Math.floor(Math.random() * instruments.length)]
 }
 
-export const generateNewTrading = (count: number = 5) => {
+export const generateNewTrading = (count = 5) => {
   const data = []
   for (let i = 0; i < count; i++) {
     const exchange = exchangeRandomizer()

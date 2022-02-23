@@ -16,6 +16,7 @@ import {
 } from 'shared/utils/randomizer'
 
 import './styles.css'
+import { ExecuteModal } from './Execute/ExecuteModal'
 
 const columns = [
   {
@@ -61,6 +62,14 @@ const columns = [
       }
 
       return parsedNumber
+    },
+    valueSetter: params => {
+      var newValInt = Number(params.newValue)
+      var valueChanged = params.data.quantity !== newValInt
+      if (valueChanged) {
+        params.data.quantity = newValInt
+      }
+      return valueChanged
     }
   },
   { field: Fields.BID },
@@ -68,11 +77,32 @@ const columns = [
 ]
 
 export const TradingPlan = () => {
-  const [rowData, setRowData] = useState(generateNewTrading())
+  const [rowData, setRowData, rowDataRef] = useState(generateNewTrading())
+  const [open, setOpen] = useState(false)
+  const [activePlan, setActivePlan] = useState({
+    exchange: null,
+    instrument: null,
+    quantity: null
+  })
+
+  const handleClickOpen = useCallback(
+    value => {
+      const row = rowData[value]
+      console.log('rowData', rowData)
+
+      setActivePlan(row)
+      setOpen(true)
+    },
+    [rowData]
+  )
+
+  const handleClose = () => {
+    setOpen(false)
+  }
 
   const updatePrices = useCallback(() => {
     const newStore = []
-    rowData.forEach(function (item) {
+    rowData.forEach(item => {
       newStore.push({
         id: item.id,
         execute: '',
@@ -138,11 +168,15 @@ export const TradingPlan = () => {
         component="div"
         sx={{ display: 'flex', justifyContent: 'space-between', p: 2 }}
       >
-        <Box sx={{ flexGrow: 1 }}>Trading Plan</Box>
+        <Box sx={{ flexGrow: 1, fontSize: 24, fontWeight: 'bold' }}>
+          Trading Plan
+        </Box>
         <Box sx={{ flexShrink: 0 }}>
           <ButtonImport onChange={handleOnChange} />
         </Box>
       </Box>
+
+      <ExecuteModal isOpen={open} handleClose={handleClose} plan={activePlan} />
 
       <div className="ag-theme-alpine" style={{ height: 500 }}>
         <AgGridReact
@@ -153,6 +187,9 @@ export const TradingPlan = () => {
           animateRows={true}
           getRowNodeId={getRowNodeId}
           onCellValueChanged={onCellValueChanged}
+          context={{
+            handleClickOpen
+          }}
         ></AgGridReact>
       </div>
     </div>

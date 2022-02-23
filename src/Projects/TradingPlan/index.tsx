@@ -40,7 +40,19 @@ const columns = [
       }
     }
   },
-  { field: 'quantity' },
+  {
+    field: 'quantity',
+    editable: true,
+    valueParser: params => {
+      // TODO: to support locale number format
+      const parsedNumber = Number(params.newValue)
+      if (Number.isNaN(parsedNumber)) {
+        return params.oldValue
+      }
+
+      return parsedNumber
+    }
+  },
   { field: 'bid' },
   { field: 'ask' }
 ]

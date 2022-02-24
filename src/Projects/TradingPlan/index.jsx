@@ -80,7 +80,7 @@ const columns = [
 export const TradingPlan = () => {
   const gridRef = useRef()
   const [rowData, setRowData] = useState(generateNewTrading())
-  const [open, setOpen] = useState(false)
+  const [isExecuteModalOpen, setIsExecuteModalOpen] = useState(false)
   const [activePlan, setActivePlan] = useState({
     nodeId: null,
     exchange: null,
@@ -98,20 +98,22 @@ export const TradingPlan = () => {
       instrument: row.data.instrument,
       quantity: row.data.quantity
     })
-    setOpen(true)
+    setIsExecuteModalOpen(true)
   }
 
-  const handleClose = () => {
-    setOpen(false)
+  const handleCloseExecuteModal = () => {
+    setIsExecuteModalOpen(false)
   }
 
-  const handleConfirm = useCallback(updatedPlan => {
+  const handleConfirmExecuteModal = useCallback(updatedPlan => {
     const rowNode = gridRef.current.api.getRowNode(updatedPlan.nodeId)
     const quantity = Number(updatedPlan.quantity)
 
     if (!Number.isNaN(quantity)) {
       rowNode.setDataValue(Fields.QUANTITY, quantity)
     }
+
+    handleCloseExecuteModal()
   })
 
   const updatePrices = useCallback(() => {
@@ -166,7 +168,7 @@ export const TradingPlan = () => {
     [rowData]
   )
 
-  const handleOnChange = e => {
+  const handleOnChangeImportCsv = e => {
     const file = e.target.files[0]
     CsvParser(file).then(data => {
       addData(data)
@@ -186,15 +188,15 @@ export const TradingPlan = () => {
           Trading Plan
         </Box>
         <Box sx={{ flexShrink: 0 }}>
-          <ButtonImport onChange={handleOnChange} />
+          <ButtonImport onChange={handleOnChangeImportCsv} />
         </Box>
       </Box>
 
       <ExecuteModal
-        isOpen={open}
+        isOpen={isExecuteModalOpen}
         plan={activePlan}
-        handleClose={handleClose}
-        handleConfirm={handleConfirm}
+        onClose={handleCloseExecuteModal}
+        onConfirm={handleConfirmExecuteModal}
       />
 
       <Box className="ag-theme-alpine" sx={{ height: '500px' }}>

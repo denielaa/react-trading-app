@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { Fields } from '~/shared/constants/tradingTable'
 
 export const useExecuteModalAction = gridRef => {
@@ -10,7 +10,7 @@ export const useExecuteModalAction = gridRef => {
     quantity: null
   })
 
-  const handleClickOpen = value => {
+  const handleClickOpen = useCallback(value => {
     // get latest data in grid
     const row = gridRef.current.api.getRowNode(value)
 
@@ -21,7 +21,7 @@ export const useExecuteModalAction = gridRef => {
       quantity: row.data.quantity
     })
     setIsExecuteModalOpen(true)
-  }
+  }, [])
 
   const handleCloseExecuteModal = () => {
     setIsExecuteModalOpen(false)

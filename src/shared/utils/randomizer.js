@@ -17,7 +17,7 @@ export const decimalRandomizer = () => {
 
 export const booleanRandomizer = () => {
   // 40% probability of true
-  return Math.random() > 0.4
+  return Math.random() > 0.6
 }
 
 export const exchangeRandomizer = () => {

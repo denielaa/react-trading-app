@@ -77,19 +77,18 @@ export const TradingPlan = () => {
   } = useExecuteModalAction(gridRef)
 
   const updatePrices = useCallback(() => {
-    const newStore = []
     rowData.forEach(item => {
-      newStore.push({
-        id: item.id,
-        execute: '',
-        exchange: item.exchange,
-        instrument: item.instrument,
-        quantity: item.quantity,
-        bid: booleanRandomizer() ? decimalRandomizer() : item.bid,
-        ask: booleanRandomizer() ? decimalRandomizer() : item.ask
-      })
+      if (booleanRandomizer()) {
+        gridRef.current.api
+          .getRowNode(item.id)
+          .setDataValue('bid', decimalRandomizer())
+      }
+      if (booleanRandomizer()) {
+        gridRef.current.api
+          .getRowNode(item.id)
+          .setDataValue('ask', decimalRandomizer())
+      }
     })
-    setRowData(newStore)
   }, [rowData])
 
   const addData = useCallback(

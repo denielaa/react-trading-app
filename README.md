@@ -19,4 +19,4 @@ Follow the below steps to run the project
 
 ## Notes
 
-The import feature has no validations, in assumption that in real live project the file import processing is handled in the API.
+The import feature has no validations, in assumption that in real project the file import processing is handled in the API.

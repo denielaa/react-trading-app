@@ -7,6 +7,8 @@ import { ExchangeType, InstrumentTypes } from '~/shared/constants/exchanges'
 import { Fields } from '~/shared/constants/tradingTable'
 import useInterval from '~/shared/hooks/interval'
 import { CsvParser } from '~/shared/utils/csvParser'
+import { numberParser } from '~/shared/utils/agGridParser'
+import { numberSetter } from '~/shared/utils/agGridSetter'
 import ButtonImport from '~/shared/components/ButtonImport'
 import ButtonCellRenderer from './Execute/buttonCellRenderer'
 import {
@@ -55,23 +57,8 @@ const columns = [
   {
     field: Fields.QUANTITY,
     editable: true,
-    valueParser: params => {
-      // TODO: to support locale number format
-      const parsedNumber = Number(params.newValue)
-      if (Number.isNaN(parsedNumber)) {
-        return params.oldValue
-      }
-
-      return parsedNumber
-    },
-    valueSetter: params => {
-      var newValInt = Number(params.newValue)
-      var valueChanged = params.data.quantity !== newValInt
-      if (valueChanged) {
-        params.data.quantity = newValInt
-      }
-      return valueChanged
-    }
+    valueParser: numberParser,
+    valueSetter: numberSetter
   },
   { field: Fields.BID },
   { field: Fields.ASK }

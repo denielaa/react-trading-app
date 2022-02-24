@@ -114,7 +114,7 @@ export const TradingPlan = () => {
       const newStore = [...rowData]
       newStore[event.rowIndex].exchange = event.newValue
       newStore[event.rowIndex].instrument = InstrumentTypes[event.newValue][0]
-      console.log('23')
+
       setRowData(newStore)
     }
   }

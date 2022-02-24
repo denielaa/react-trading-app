@@ -92,10 +92,6 @@ export const TradingPlan = () => {
     setRowData(newStore)
   }, [rowData])
 
-  const getRowNodeId = useCallback(data => {
-    return data.id
-  }, [])
-
   const addData = useCallback(
     data => {
       const newStore = [...rowData]
@@ -171,7 +167,9 @@ export const TradingPlan = () => {
           columnDefs={columns}
           immutableData={true}
           animateRows={true}
-          getRowNodeId={getRowNodeId}
+          getRowNodeId={data => {
+            return data.id
+          }}
           onCellValueChanged={onCellValueChanged}
           context={{
             handleClickOpen

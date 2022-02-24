@@ -13,9 +13,10 @@ export const useFormControls = (formValues, onConfirm) => {
 
   const validate = value => {
     const tempErrors = {}
+    const parsedQuantity = Number(value.quantity)
     if (!value.quantity) {
       tempErrors.quantity = 'This field is required'
-    } else if (Number.isNaN(Number(value.quantity))) {
+    } else if (Number.isNaN(parsedQuantity) || parsedQuantity < 0) {
       tempErrors.quantity = 'Invalid quantity'
     }
 

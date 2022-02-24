@@ -16,3 +16,7 @@ Follow the below steps to run the project
 | -------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
 | `src/Project`  | Project module                                                                                                                           |
 | `src/shared`   | Components, constants, utils, hooks, styles etc. that can be used anywhere in the codebase. Any module is allowed to import from shared. |
+
+## Notes
+
+The import feature has no validations, in assumption that in real live project the file import processing is handled in the API.

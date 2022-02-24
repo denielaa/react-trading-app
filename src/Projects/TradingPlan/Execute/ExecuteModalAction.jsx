@@ -1,24 +1,21 @@
 import { useState, useCallback } from 'react'
 import { Fields } from '~/shared/constants/tradingTable'
 
-export const useExecuteModalAction = gridRef => {
+export const useExecuteModalAction = () => {
   const [isExecuteModalOpen, setIsExecuteModalOpen] = useState(false)
   const [activePlan, setActivePlan] = useState({
-    nodeId: null,
+    node: null,
     exchange: null,
     instrument: null,
     quantity: null
   })
 
-  const handleClickOpen = useCallback(value => {
-    // get latest data in grid
-    const row = gridRef.current.api.getRowNode(value)
-
+  const handleClickOpen = useCallback(nodeRow => {
     setActivePlan({
-      nodeId: value,
-      exchange: row.data.exchange,
-      instrument: row.data.instrument,
-      quantity: row.data.quantity
+      node: nodeRow,
+      exchange: nodeRow.data.exchange,
+      instrument: nodeRow.data.instrument,
+      quantity: nodeRow.data.quantity
     })
     setIsExecuteModalOpen(true)
   }, [])
@@ -28,11 +25,10 @@ export const useExecuteModalAction = gridRef => {
   }
 
   const handleConfirmExecuteModal = updatedPlan => {
-    const rowNode = gridRef.current.api.getRowNode(updatedPlan.nodeId)
     const quantity = Number(updatedPlan.quantity)
 
     if (!Number.isNaN(quantity)) {
-      rowNode.setDataValue(Fields.QUANTITY, quantity)
+      updatedPlan.node.setDataValue(Fields.QUANTITY, quantity)
     }
 
     handleCloseExecuteModal()

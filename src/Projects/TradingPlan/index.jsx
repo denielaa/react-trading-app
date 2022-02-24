@@ -74,7 +74,7 @@ export const TradingPlan = () => {
     handleClickOpen,
     handleCloseExecuteModal,
     handleConfirmExecuteModal
-  } = useExecuteModalAction(gridRef)
+  } = useExecuteModalAction()
 
   const updatePrices = useCallback(() => {
     rowData.forEach(item => {

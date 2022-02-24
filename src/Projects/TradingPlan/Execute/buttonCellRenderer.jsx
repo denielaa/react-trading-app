@@ -2,7 +2,7 @@ import Button from '@mui/material/Button'
 
 export default props => {
   const buttonClicked = () => {
-    props.context.handleClickOpen(props.node.id)
+    props.context.handleClickOpen(props.node)
   }
 
   return (

@@ -112,18 +112,14 @@ export const TradingPlan = () => {
     [rowData]
   )
 
-  const onCellValueChanged = useCallback(
-    event => {
-      if (event.colDef.field === Fields.EXCHANGE) {
-        const newStore = [...rowData]
-        newStore[event.rowIndex].exchange = event.newValue
-        newStore[event.rowIndex].instrument = InstrumentTypes[event.newValue][0]
-
-        setRowData(newStore)
-      }
-    },
-    [rowData]
-  )
+  const onCellValueChanged = useCallback(event => {
+    if (event.colDef.field === Fields.EXCHANGE) {
+      event.node.setDataValue(
+        Fields.INSTRUMENT,
+        InstrumentTypes[event.newValue][0]
+      )
+    }
+  }, [])
 
   const handleOnChangeImportCsv = e => {
     const file = e.target.files[0]

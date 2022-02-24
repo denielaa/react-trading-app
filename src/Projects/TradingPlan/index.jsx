@@ -9,6 +9,7 @@ import useInterval from '~/shared/hooks/interval'
 import { CsvParser } from '~/shared/utils/csvParser'
 import { numberParser } from '~/shared/utils/agGridParser'
 import { numberSetter } from '~/shared/utils/agGridSetter'
+import { numberComparator } from '~/shared/utils/agGridComparator'
 import ButtonImport from '~/shared/components/ButtonImport'
 import ButtonCellRenderer from './Execute/buttonCellRenderer'
 import { useExecuteModalAction } from './Execute/ExecuteModalAction'
@@ -59,10 +60,11 @@ const columns = [
     field: Fields.QUANTITY,
     editable: true,
     valueParser: numberParser,
-    valueSetter: numberSetter
+    valueSetter: numberSetter,
+    comparator: numberComparator
   },
-  { field: Fields.BID },
-  { field: Fields.ASK }
+  { field: Fields.BID, comparator: numberComparator },
+  { field: Fields.ASK, comparator: numberComparator }
 ]
 
 export const TradingPlan = () => {

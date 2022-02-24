@@ -9,7 +9,7 @@ export const decimalRandomizer = () => {
   const precision = 100 // 2 decimals
   return (
     Math.floor(
-      Math.random() * (10 * precision - 1 * precision) + 1 * precision
+      Math.random() * (100 * precision - 1 * precision) + 1 * precision
     ) /
     (1 * precision)
   )

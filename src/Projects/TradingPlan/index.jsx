@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react'
+import { useState, useRef } from 'react'
 import { AgGridReact } from 'ag-grid-react'
 import { v4 as uuidv4 } from 'uuid'
 import Box from '@mui/material/Box'
@@ -76,7 +76,7 @@ export const TradingPlan = () => {
     handleConfirmExecuteModal
   } = useExecuteModalAction(gridRef)
 
-  const updatePrices = useCallback(() => {
+  const updatePrices = () => {
     const newStore = []
     rowData.forEach(item => {
       newStore.push({
@@ -90,39 +90,34 @@ export const TradingPlan = () => {
       })
     })
     setRowData(newStore)
-  }, [rowData])
+  }
 
-  const addData = useCallback(
-    data => {
-      const newStore = [...rowData]
-      data.forEach(item => {
-        newStore.splice(0, 0, {
-          id: uuidv4(),
-          execute: '',
-          exchange: item.exchange.toUpperCase(),
-          instrument: item.instrument,
-          quantity: item.quantity,
-          bid: decimalRandomizer(),
-          ask: decimalRandomizer()
-        })
+  const addData = data => {
+    const newStore = [...rowData]
+    data.forEach(item => {
+      newStore.splice(0, 0, {
+        id: uuidv4(),
+        execute: '',
+        exchange: item.exchange.toUpperCase(),
+        instrument: item.instrument,
+        quantity: item.quantity,
+        bid: decimalRandomizer(),
+        ask: decimalRandomizer()
       })
+    })
 
+    setRowData(newStore)
+  }
+
+  const onCellValueChanged = event => {
+    if (event.colDef.field === Fields.EXCHANGE) {
+      const newStore = [...rowData]
+      newStore[event.rowIndex].exchange = event.newValue
+      newStore[event.rowIndex].instrument = InstrumentTypes[event.newValue][0]
+      console.log('23')
       setRowData(newStore)
-    },
-    [rowData]
-  )
-
-  const onCellValueChanged = useCallback(
-    event => {
-      if (event.colDef.field === Fields.EXCHANGE) {
-        const newStore = [...rowData]
-        newStore[event.rowIndex].exchange = event.newValue
-        newStore[event.rowIndex].instrument = InstrumentTypes[event.newValue][0]
-        setRowData(newStore)
-      }
-    },
-    [rowData]
-  )
+    }
+  }
 
   const handleOnChangeImportCsv = e => {
     const file = e.target.files[0]

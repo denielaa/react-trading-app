@@ -11,6 +11,7 @@ import { numberParser } from '~/shared/utils/agGridParser'
 import { numberSetter } from '~/shared/utils/agGridSetter'
 import ButtonImport from '~/shared/components/ButtonImport'
 import ButtonCellRenderer from './Execute/buttonCellRenderer'
+import { useExecuteModalAction } from './Execute/ExecuteModalAction'
 import {
   decimalRandomizer,
   booleanRandomizer,
@@ -67,41 +68,13 @@ const columns = [
 export const TradingPlan = () => {
   const gridRef = useRef()
   const [rowData, setRowData] = useState(generateNewTrading())
-  const [isExecuteModalOpen, setIsExecuteModalOpen] = useState(false)
-  const [activePlan, setActivePlan] = useState({
-    nodeId: null,
-    exchange: null,
-    instrument: null,
-    quantity: null
-  })
-
-  const handleClickOpen = value => {
-    // get latest data in grid
-    const row = gridRef.current.api.getRowNode(value)
-
-    setActivePlan({
-      nodeId: value,
-      exchange: row.data.exchange,
-      instrument: row.data.instrument,
-      quantity: row.data.quantity
-    })
-    setIsExecuteModalOpen(true)
-  }
-
-  const handleCloseExecuteModal = () => {
-    setIsExecuteModalOpen(false)
-  }
-
-  const handleConfirmExecuteModal = useCallback(updatedPlan => {
-    const rowNode = gridRef.current.api.getRowNode(updatedPlan.nodeId)
-    const quantity = Number(updatedPlan.quantity)
-
-    if (!Number.isNaN(quantity)) {
-      rowNode.setDataValue(Fields.QUANTITY, quantity)
-    }
-
-    handleCloseExecuteModal()
-  })
+  const {
+    isExecuteModalOpen,
+    activePlan,
+    handleClickOpen,
+    handleCloseExecuteModal,
+    handleConfirmExecuteModal
+  } = useExecuteModalAction(gridRef)
 
   const updatePrices = useCallback(() => {
     const newStore = []

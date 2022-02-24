@@ -12,4 +12,5 @@ input[type='file'] {
   padding-right: 1rem;
   border-radius: 0.25rem;
   background-color: #0070f3;
+  cursor: pointer;
 }
